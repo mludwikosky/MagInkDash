@@ -12,12 +12,12 @@ This repo contains the code needed to drive an E-Ink Magic Dashboard that uses a
 
 This project is a mashup of speedyg0nz's two E-Ink displays. I initally copied his approach and made the MagInkCal. I made some modifications to that to make it more readable. Mainly removing the month digit at the top, and rotating the content landscape. His original design was following the original [Android Magic Calendar concept](https://www.youtube.com/watch?v=2KDkFgOHZ5I), but that didn't work as well with English. Changing it to landscape allowed longer text per day, but there was still a lot left out. I saw that he had moved to the MagInkDash concept and I wanted to combine the two. My version works using the original Waveshare 12.48" Tri-color E-Ink Display (although I'm only using black and white at the moment). It also runs locally on a PiSugar 3 powered Raspberry Pi W. I removed the OpenAI integration because the random facts and information didn't appeal to me. I would rather use that space on the screen for more calendar events.
 
-There definitely is some more work to be done on this project. There are some compromises with the current setup that make it less than ideal. For starters, using the Raspberry Pi W and the PiSugar, it can only update once a day when the PiSugar boots the Pi up. The main drawback for this is the current weather is only accurate at 6am, which I have it set to boot up. After that, it's stale information and actually distracts from the usefulness of the display. I'm planning on rebuilding the weather side of it to be more useful with a once-a-day refresh cycle.
+There definitely is some more work to be done on this project. There are some compromises with the current setup that make it less than ideal. For starters, using the Raspberry Pi W and the PiSugar, it can only update once a day when the PiSugar boots the Pi up. The main drawback for this is the current weather is only accurate at 6am, when I have it set to boot up. After that, it's stale information and actually distracts from the usefulness of the display. I'm planning on rebuilding the weather side of it to be more useful with a once-a-day refresh cycle.
 
 ## Hardware Required
 - [Raspberry Pi Zero WH](https://www.raspberrypi.com/news/zero-wh/) - Header pins are needed to connect to the E-Ink display
 - [Waveshare 12.48" Tri-color E-Ink Display](https://www.waveshare.com/product/12.48inch-e-paper-module-b.htm)) - Used to display the generated dashboard.
-- [Pisugar3](https://www.tindie.com/products/pisugar/pisugar3-battery-for-raspberry-pi-zero/)[Amazon](https://www.amazon.com/dp/B09MJ8SCGD) - Provides the RTC and battery. 
+- [Pisugar3](https://www.tindie.com/products/pisugar/pisugar3-battery-for-raspberry-pi-zero/)([Amazon](https://www.amazon.com/dp/B09MJ8SCGD)) - Provides the RTC and battery. 
 
 
 ## How It Works
@@ -58,15 +58,15 @@ pip3 install Pillow
 python3 quickstart.py
 ```
 
-7. Copy all the files (other than the "inkplate" folder) over to your RPi using your preferred means. 
+7. Copy all the files over to your RPi using your preferred means. I use [WinSCP](https://winscp.net/eng/index.php).
 
 8. Run the following command in the RPi Terminal to open crontab.
 ```bash
 crontab -e
 ```
-9. Specifically, add the following command to crontab so that the MagInkDash Python script runs on boot.
+9. Specifically, add the following command to crontab so that the MagInkDash Python script runs on boot. If your script is not located in the home folder of your user, you will need to update the following cron command to reflect the location of the main.py file.
 ```bash
-@reboot cd /location/to/your/MagInkDash && python3 main.py
+@reboot cd ~/MagInkDash-main && python3 main.py
 ```
 
 10. That's all! Your Magic Dashboard should now be refreshed once a day! 
