@@ -22,9 +22,7 @@ Through PiSugar3's web interface, the onboard RTC can be set to wake and trigger
 
 Some features of the dashboard: 
 - **Battery Life**: As with similar battery powered devices, the biggest question is the battery life. I'm currently using a 1500mAh battery on the Inkplate 10 and based on current usage, it should last me around 3-4 months. With the 3000mAh that comes with the manufacturer assembled Inkplate 10, we could potentially be looking at 6-8 month battery life. With this crazy battery life, there are much more options available. Perhaps solar power for unlimited battery life? Or reducing the refresh interval to 15 or 30min to increase the information timeliness?
-- **Calendar and Weather**: I'm currently displaying calendar events and weather forecast for current day and the upcoming two days. No real reason other than the desire to know what my weekend looks like on a Friday, and therefore helping me to better plan my weekend. Unfortunately, if you have a busy calendar with numerous events on a single day, the space on the dashboard will be consumed very quickly. If so, you might wish to modify the code to reduce/limit the number of days/events to be displayed.
-
-![MagInkDash Features](https://user-images.githubusercontent.com/5581989/231484018-6ff6a883-3226-42c7-a387-fcef7ee9d49c.png)
+- **Calendar and Weather**: I'm currently displaying weather forecast for current day and the upcoming two days. I'm also displaying the calendar for the next week. Unfortunately, if you have a busy calendar with numerous events on a single day, the space on the dashboard will be consumed very quickly. If you have numerous events on each day, the calendar will run off the bottom of the screen. If this is visually unappealing, then you would need to decrease the number of days that are downloaded and displayed.
 
 ## Setting Up 
 
@@ -67,13 +65,8 @@ crontab -e
 ```bash
 0 * * * * cd /location/to/your/MagInkDash && python3 main.py
 ```
-10. As for the Inkplate, I'm not going to devote too much space here since there are [official resources that describe how to set it up](https://inkplate.readthedocs.io/en/latest/get-started.html). It may take some trial and error for those new to microcontroller programming but it's all worth it! Only the Arduino portion of the guide is relevant, and you'll need to be able to run *.ino scripts via Arduino IDE before proceeding. From there, run the "inkplate.ino" file from the "inkplate" folder from the Arduino IDE when connected to the Inkplate.
 
-12. That's all! Your Magic Dashboard should now be refreshed every hour! 
-
-![20230412_214652](https://user-images.githubusercontent.com/5581989/231485348-35d7e0df-034e-49aa-8500-223b2b3bdcc0.JPG)
-![20230412_215020](https://user-images.githubusercontent.com/5581989/231484068-aa6ce877-1e0a-49fe-b47e-7c024752f42c.JPG)
-Selfie and family portrait together with the MagInkCal
+10. That's all! Your Magic Dashboard should now be refreshed once a day! 
 
 ## Acknowledgements
 - [Lexend Font](https://fonts.google.com/specimen/Lexend) and [Tilt Warp Font](https://fonts.google.com/specimen/Tilt+Warp): Fonts used for the dashboard display
@@ -81,14 +74,7 @@ Selfie and family portrait together with the MagInkCal
 - [Weather Icons](https://erikflowers.github.io/weather-icons/): Icons used for displaying of weather forecast information
 - [Freepik](https://www.freepik.com/): For the background image used in this dashboard
   
-## Contributing
-I won't be updating this code much, since it serves my needs well. Nevertheless, feel free to fork the repo and modify it for your own purpose. At the same time, check out other similar projects, such as [InkyCal](https://github.com/aceisace/Inkycal) by [/u/aceisace](https://www.reddit.com/user/aceisace/). It's much more polished and also actively developed.
-
 ## Buy Me A Coffee
-If this project has helped you in any way, do buy me a coffee so I can continue to build more of such projects in the future and share them with the community!
+If this project has helped you in any way, do buy speedyg0nz a coffee so he can continue to build more of such projects in the future and share them with the community! He did 98% of the work on this project. I just inelegantly mashed them together.
 
 <a href="https://www.buymeacoffee.com/speedygonz" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
-
-
-## What's Next
-Since building the Magic Calendar two years back, I've been looking at E-Ink tablets that emulate the experience of writing on paper, and allow the users to take notes on the go. Those familiar with this range of products would be aware of the Kindle Scribe, reMarkable tablet, Ratta Supernote, Kobo Elipsa and many others. I've had some limited success with getting a Kindle Paperwhite to display a calendar while sleeping but it felt too "hacky" and prone to breaking when Amazon updates the OS. I'm still looking for the right device (possibly a PineNote?), so if you're aware of any suitable candidates, do let me know!
