@@ -15,6 +15,7 @@
 
 h1, h2, p, span, .h1, .h2, .p, .span  {
     font-family: "Lexend-Regular", sans-serif;
+    color: black;
 }
 
 .list-unstyled {
@@ -22,12 +23,13 @@ h1, h2, p, span, .h1, .h2, .p, .span  {
 }
 
 .event-time {
-    color: gray
+    color: black
 }
 
 .big-day {
     font-family: "TiltWarp-Regular", sans-serif;
     font-size: 18rem;
+    color: black;
 }
 
 .event {
@@ -40,12 +42,7 @@ h1, h2, p, span, .h1, .h2, .p, .span  {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.did-you-know {
-    font-family: "Lexend-Light", sans-serif;
-    font-size: 2.5rem;
-    max-width: 95%;
+    color: black;
 }
 
 .date-padding {
@@ -60,4 +57,51 @@ h1, h2, p, span, .h1, .h2, .p, .span  {
   padding-left:10;
   padding-top:0;
   padding-bottom:0;
+}
+
+div.batt_container {
+    width: 53px;
+    height: 27px;
+    position: absolute;
+    top: 5;
+    left: 5;
+    overflow: hidden;
+}
+  
+div.batt_container  {
+    z-index: 10;
+}
+  
+div.batt_container .battery80 {
+    position: relative;
+    left: 0px;
+    top: 0px;
+}
+  
+div.batt_container .battery60 {
+    position: relative;
+    left: 0px;
+    top: -44px;
+}
+  
+div.batt_container .battery40 {
+    position: relative;
+    left: 0px;
+    top: -89px;
+}
+  
+div.batt_container .battery20 {
+    position: relative;
+    left: 0px;
+    top: -134px;
+}
+  
+div.batt_container .battery0 {
+    position: relative;
+    left: 0px;
+    top: -178px;
+}
+  
+div.batt_container .batteryHide {
+      display: none;
 }

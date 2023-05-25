@@ -14,6 +14,7 @@ from datetime import timedelta
 import pathlib
 import string
 from PIL import Image
+from PIL import ImageDraw
 import logging
 from selenium.webdriver.common.by import By
 
@@ -46,7 +47,8 @@ class RenderHelper:
             width=target_width,
             height=target_height)
 
-    def get_screenshot(self, path_to_server_image):
+    def get_screenshot(self):
+        redimg = Image.new("1", (self.imageWidth, self.imageHeight), 255)
         opts = Options()
         opts.add_argument("--headless")
         opts.add_argument("--hide-scrollbars");
@@ -56,8 +58,10 @@ class RenderHelper:
         driver.get(self.htmlFile)
         sleep(1)
         driver.get_screenshot_as_file(self.currPath + '/dashboard.png')
-        driver.get_screenshot_as_file(path_to_server_image)
         self.logger.info('Screenshot captured and saved to file.')
+        blackimg = Image.open(self.currPath + '/dashboard.png') # get image
+        blackimg = blackimg.rotate(self.rotateAngle, expand=True)
+        return blackimg, redimg
 
     def get_short_time(self, datetimeObj, is24hour=False):
         datetime_str = ''
@@ -77,7 +81,7 @@ class RenderHelper:
                 datetime_str = '{}{}am'.format(str(datetimeObj.hour), datetime_str)
         return datetime_str
 
-    def process_inputs(self, current_date, current_weather, hourly_forecast, daily_forecast, event_list, num_cal_days, topic, path_to_server_image):
+    def process_inputs(self, current_date, current_weather, hourly_forecast, daily_forecast, event_list, num_cal_days, currBatteryLevel, batteryDisplayMode):
 
         # Read html template
         with open(self.currPath + '/dashboard_template.html', 'r') as file:
@@ -99,17 +103,49 @@ class RenderHelper:
                 cal_events_text += '</div>\n'
             cal_events_list.append(cal_events_text)
 
+        # Insert battery icon
+        # batteryDisplayMode - 0: do not show / 1: always show / 2: show when battery is low
+        battLevel = currBatteryLevel
+
+        if batteryDisplayMode == 0:
+            battText = 'batteryHide'
+        elif batteryDisplayMode == 1:
+            if battLevel >= 80:
+                battText = 'battery80'
+            elif battLevel >= 60:
+                battText = 'battery60'
+            elif battLevel >= 40:
+                battText = 'battery40'
+            elif battLevel >= 20:
+                battText = 'battery20'
+            else:
+                battText = 'battery0'
+
+        elif batteryDisplayMode == 2 and battLevel < 20.0:
+            battText = 'battery0'
+        elif batteryDisplayMode == 2 and battLevel >= 20.0:
+            battText = 'batteryHide'
+
         # Append the bottom and write the file
         htmlFile = open(self.currPath + '/dashboard.html', "w")
         htmlFile.write(dashboard_template.format(
             day=current_date.strftime("%-d"),
+            battText=battText,
             month=current_date.strftime("%B"),
             weekday=current_date.strftime("%A"),
             tomorrow=(current_date + timedelta(days=1)).strftime("%A"),
             dayafter=(current_date + timedelta(days=2)).strftime("%A"),
+            threedays=(current_date + timedelta(days=3)).strftime("%A"),
+            fourdays=(current_date + timedelta(days=4)).strftime("%A"),
+            fivedays=(current_date + timedelta(days=5)).strftime("%A"),
+            sixdays=(current_date + timedelta(days=6)).strftime("%A"),
             events_today=cal_events_list[0],
             events_tomorrow=cal_events_list[1],
             events_dayafter=cal_events_list[2],
+            events_threedays=cal_events_list[3],
+            events_fourdays=cal_events_list[4],
+            events_fivedays=cal_events_list[5],
+            events_sixdays=cal_events_list[6],
             # I'm choosing to show the forecast for the next hour instead of the current weather
             # current_weather_text=string.capwords(current_weather["weather"][0]["description"]),
             # current_weather_id=current_weather["weather"][0]["id"],
@@ -129,9 +165,7 @@ class RenderHelper:
             today_weather_max=str(round(daily_forecast[0]["temp"]["max"])),
             tomorrow_weather_max=str(round(daily_forecast[1]["temp"]["max"])),
             dayafter_weather_max=str(round(daily_forecast[2]["temp"]["max"])),
-            topic_title=topic["title"],
-            topic_text=topic["text"]
         ))
         htmlFile.close()
 
-        self.get_screenshot(path_to_server_image)
+        return self.get_screenshot()
