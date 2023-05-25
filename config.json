@@ -1,9 +1,8 @@
 {
   "displayTZ": "US/Central",
-  "calendars": ["fs20l152hi4c94qgt03c0m728o@group.calendar.google.com",
-  "family15204704046347789159@group.calendar.google.com"],
+  "calendars": ["primary"],
   "numCalDaysToShow": 7,
-  "owm_api_key": "efab8602f7350dab23f56f0c16398d62",
+  "owm_api_key": "PUT_YOUR_API_KEY_HERE",
   "lat": 38.9802,
   "lon": -94.7565,
   "isDisplayToScreen": true,
