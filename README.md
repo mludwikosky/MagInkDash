@@ -61,9 +61,9 @@ python3 quickstart.py
 ```bash
 crontab -e
 ```
-9. Specifically, add the following command to crontab so that the MagInkDash Python script runs on the hour, every hour.
+9. Specifically, add the following command to crontab so that the MagInkDash Python script runs on boot.
 ```bash
-0 * * * * cd /location/to/your/MagInkDash && python3 main.py
+0 @reboot cd /location/to/your/MagInkDash && python3 main.py
 ```
 
 10. That's all! Your Magic Dashboard should now be refreshed once a day! 
