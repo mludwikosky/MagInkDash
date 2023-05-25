@@ -1,13 +1,17 @@
 {
-  "displayTZ": "Asia/Hong_Kong",
-  "calendars": ["primary"],
-  "numCalDaysToShow": 3,
-  "owm_api_key": "ENTER YOUR OWN API KEY HERE",
-  "lat": 22.3193,
-  "lon": 114.1694,
-  "imageWidth": 1200,
-  "imageHeight": 825,
-  "rotateAngle": 0,
-  "openai_api_key": "ENTER YOUR OWN API KEY HERE",
-  "path_to_server_image": "/var/www/html/maginkdash.png"
+  "displayTZ": "US/Central",
+  "calendars": ["fs20l152hi4c94qgt03c0m728o@group.calendar.google.com",
+  "family15204704046347789159@group.calendar.google.com"],
+  "numCalDaysToShow": 7,
+  "owm_api_key": "efab8602f7350dab23f56f0c16398d62",
+  "lat": 38.9802,
+  "lon": -94.7565,
+  "isDisplayToScreen": true,
+  "isShutdownOnComplete": true,
+  "screenWidth": 1304,
+  "screenHeight": 984,
+  "imageWidth": 1304,
+  "imageHeight": 984,
+  "rotateAngle": 180,
+  "batteryDisplayMode": 1
 }
