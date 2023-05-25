@@ -6,13 +6,11 @@ Also combined with: https://github.com/speedyg0nz/MagInkCal
 # MagInkDash
 This repo contains the code needed to drive an E-Ink Magic Dashboard that uses a Raspberry Pi to automatically retrieve updated content from Google Calendar and OpenWeatherMap. Then it will format them into the desired layout before displaying it to an E-Ink display (Waveshare 12.48). Note that the code has only been tested on the specific hardware mentioned, but can be easily modified to work with other hardware.
 
-
+![https://imgur.com/a/krtY2gm](https://i.imgur.com/dwVj8pu.jpg)
 
 ## Background
 
 This project is a mashup of speedyg0nz's two E-Ink displays. I initally copied his approach and made the MagInkCal. I made some modifications to that to make it more readable. Mainly removing the month digit at the top, and rotating the content landscape. His original design was following the original [Android Magic Calendar concept](https://www.youtube.com/watch?v=2KDkFgOHZ5I), but that didn't work as well with English. Changing it to landscape allowed longer text per day, but there was still a lot left out. I saw that he had moved to the MagInkDash concept and I wanted to combine the two. My version works using the original Waveshare 12.48" Tri-color E-Ink Display (although I'm only using black and white at the moment). It also runs locally on a PiSugar 3 powered Raspberry Pi W. I removed the OpenAI integration because the random facts and information didn't appeal to me. I would rather use that space on the screen for more calendar events.
-
-[https://imgur.com/a/krtY2gm](https://i.imgur.com/dwVj8pu.jpg)
 
 There definitely is some more work to be done on this project. There are some compromises with the current setup that make it less than ideal. For starters, using the Raspberry Pi W and the PiSugar, it can only update once a day when the PiSugar boots the Pi up. The main drawback for this is the current weather is only accurate at 6am, which I have it set to boot up. After that, it's stale information and actually distracts from the usefulness of the display. I'm planning on rebuilding the weather side of it to be more useful with a once-a-day refresh cycle.
 
@@ -79,7 +77,7 @@ crontab -e
 - [Weather Icons](https://erikflowers.github.io/weather-icons/): Icons used for displaying of weather forecast information
 - [Freepik](https://www.freepik.com/): For the background image used in this dashboard
   
-## Buy Me A Coffee
+## Buy speedyg0nz A Coffee
 If this project has helped you in any way, do buy speedyg0nz a coffee so he can continue to build more of such projects in the future and share them with the community! He did 98% of the work on this project. I just inelegantly mashed them together.
 
 <a href="https://www.buymeacoffee.com/speedygonz" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
