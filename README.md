@@ -1,25 +1,28 @@
 
-# MagInkDash
-This repo contains the code needed to drive an E-Ink Magic Dashboard that uses a Raspberry Pi to automatically retrieve updated content from Google Calendar, OpenWeatherMap and OpenAI ChatGPT, format them into the desired layout, before serving it to a battery powered E-Ink display (Inkplate 10). Note that the code has only been tested on the specific hardware mentioned, but can be easily modified to work with other hardware (for both the server or display).
+Forked from: https://github.com/speedyg0nz/MagInkDash
+Also combined with: https://github.com/speedyg0nz/MagInkCal
 
-![20230412_214635](https://user-images.githubusercontent.com/5581989/231482915-154db674-9301-465d-8352-d2c4400093eb.JPG)
+# MagInkDash
+This repo contains the code needed to drive an E-Ink Magic Dashboard that uses a Raspberry Pi to automatically retrieve updated content from Google Calendar, and OpenWeatherMap, format them into the desired layout, before displaying it to an E-Ink display (Waveshare 12.48). Note that the code has only been tested on the specific hardware mentioned, but can be easily modified to work with other hardware.
 
 ## Background
-Back in September 2021, I [shared about my E-Ink Calendar project (MagInkCal) on Reddit](https://www.reddit.com/r/raspberry_pi/comments/pugv7d/maginkcal_magic_calendar_project_completed_full/) (with [full source code on Github](https://github.com/speedyg0nz/MagInkCal/)), which was an attempt to replicate the [Android Magic Calendar concept](https://www.youtube.com/watch?v=2KDkFgOHZ5I) that inspired many DIY projects over the years. While the calendar has been serving me extremely well, I wanted a dashboard which offered additonal information that was rich, timely and glanceable, such as the weather for the next hour just before leaving the house. While there were many projects that might achieve a similar outcome, I wanted something that met my specific needs. Hence, this project was born. You can read more about the story and join the conversation [over on Reddit](https://www.reddit.com/r/raspberry_pi/comments/12joara/maginkdash_magic_eink_dashboard_project_full/).
+
+This project is a mashup of speedyg0nz's two E-Ink displays. I initally copied his approach and made the MagInkCal. I made some modifications to that to make it more readable. Mainly removing the month digit at the top, and rotating the content landscape. His original design was following the original [Android Magic Calendar concept](https://www.youtube.com/watch?v=2KDkFgOHZ5I), but that didn't work as well with English. Changing it to landscape allowed longer text per day, but there was still a lot left out. I saw that he had moved to the MagInkDash concept and I wanted to combine the two. My version works using the original Waveshare 12.48" Tri-color E-Ink Display (although I'm only using black and white at the moment). It also runs locally on a PiSugar 3 powered Raspberry Pi W. I removed the OpenAI integration because the random facts and information didn't appeal to me. I would rather use that space on the screen for more calendar events.
+
+There definitely is some more work to be done on this project. There are some compromises with the current setup that make it less than ideal. For starters, using the Raspberry Pi W and the PiSugar, it can only update once a day when the PiSugar boots the Pi up. The main drawback for this is the current weather is only accurate at 6am, which I have it set to boot up. After that, it's stale information and actually distracts from the usefulness of the display. I'm planning on rebuilding the weather side of it to be more useful with a once-a-day refresh cycle.
 
 ## Hardware Required
-- [Raspberry Pi](https://www.raspberrypi.org/) - Used as a server to retrieve content and generate a dashboard for the E-Ink display so any model would do. Personally, I dug out an old Raspberry Pi Model B Revision 2.0 from 2011 and it works fine for this purpose. In fact, it doesn't even need to be a RPi. Any other Single Board Computer, or old computer, or even a cloud service that runs the code would suffice.
-- [Inkplate 10 Battery Powered E-Ink Display](https://soldered.com/product/soldered-inkplate-10-9-7-e-paper-board-with-enclosure-copy/) - Used as a client to display the generated dashboard. I went with this because it was an all-in-one with the enclosure and battery included so there's less hardware tinkering. But you could certainly go barebones and assemble the different parts yourself from scratch, i.e. display, microcontroller, case, and battery.
+- [Raspberry Pi Zero WH](https://www.raspberrypi.com/news/zero-wh/) - Header pins are needed to connect to the E-Ink display
+- [Waveshare 12.48" Tri-color E-Ink Display](https://www.waveshare.com/product/12.48inch-e-paper-module-b.htm)) - Used to display the generated dashboard.
+- [Pisugar3](https://www.tindie.com/products/pisugar/pisugar3-battery-for-raspberry-pi-zero/)[Amazon](https://www.amazon.com/dp/B09MJ8SCGD) - Provides the RTC and battery. 
 
 
 ## How It Works
-A cron job on RPi will trigger a Python script to run every hour to fetch calendar events from Google Calendar, weather forecast from OpenWeatherMap and random factoids from OpenAI's ChatGPT. The retrieved content is then formatted into the desired layout and saved as an image. An Apache server on the RPi will then host this image such that it can be accessed by the Inkplate 10. On the Inkplate 10, the corresponding script   will then connect to the RPi server on the local network via a WiFi connection, retrieve the image and display it on the E-Ink screen. The Inkplate 10 then goes to sleep to conserve battery. The dashboard remains displayed on the E-Ink screen, because well, E-Ink...
+Through PiSugar3's web interface, the onboard RTC can be set to wake and trigger the RPi to boot up daily at a time of your preference. Upon boot, a cronjob on the RPi is triggered to run a Python script that fetches the current weather from OpenWeatherMap and calendar events from Google Calendar for the next 7 days. Then it formats them into the desired layout before displaying it on the E-Ink display. The RPi then shuts down to conserve battery. The calendar remains displayed on the E-Ink screen, because well, E-Ink...
 
 Some features of the dashboard: 
 - **Battery Life**: As with similar battery powered devices, the biggest question is the battery life. I'm currently using a 1500mAh battery on the Inkplate 10 and based on current usage, it should last me around 3-4 months. With the 3000mAh that comes with the manufacturer assembled Inkplate 10, we could potentially be looking at 6-8 month battery life. With this crazy battery life, there are much more options available. Perhaps solar power for unlimited battery life? Or reducing the refresh interval to 15 or 30min to increase the information timeliness?
 - **Calendar and Weather**: I'm currently displaying calendar events and weather forecast for current day and the upcoming two days. No real reason other than the desire to know what my weekend looks like on a Friday, and therefore helping me to better plan my weekend. Unfortunately, if you have a busy calendar with numerous events on a single day, the space on the dashboard will be consumed very quickly. If so, you might wish to modify the code to reduce/limit the number of days/events to be displayed.
-- **OpenAI ChatGPT**: As with any new projects in 2023, we can't avoid bringing in ChatGPT. So I've also included a section in the dashboard to retrieve ChatGPT responses via OpenAI's API (free for now, paid in the future).  So far I'm using it to retrieve factoids on animals, historical figures, notable events, countries, world records, etc. It's a huge hit with the kids at home, and they'll be standing next to the dashboard on the hour to wait for the next refresh. The prompts fed to ChatGPT can certainly be customised, so please knock yourself out and think of the most outrageous things you can put on your dashboard. Note that you might have to test and adjust the prompts/parameters, else ChatGPT might return fairly repetitive responses, e.g. on Abraham Lincoln, Rosa Parks, Martin Luther King.
-- **Telegram Bot**: Although the battery life is crazy long on the Inkplate 10, I still wish to be notified when the battery runs low. To do so, I set up a Telegram Bot and the Inkplate will trigger the bot to send me a message if the measured battery voltage falls below a specified threshold. That said, with the bot set up, there's actually much more you could do, e.g. send yourself a message when it's to expected to rain in the next hour.
 
 ![MagInkDash Features](https://user-images.githubusercontent.com/5581989/231484018-6ff6a883-3226-42c7-a387-fcef7ee9d49c.png)
 
@@ -43,10 +46,6 @@ pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth
 pip3 install pytz
 pip3 install selenium
 pip3 install Pillow
-pip3 install openai  
-sudo apt-get install apache2 -y  
-sudo chown pi:www-data /var/www/html
-sudo chmod 755 /var/www/html
 ```
 4. Download the over the files in this repo to a folder in your PC first. 
 
