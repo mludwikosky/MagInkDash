@@ -3,7 +3,9 @@ Forked from: https://github.com/speedyg0nz/MagInkDash
 Also combined with: https://github.com/speedyg0nz/MagInkCal
 
 # MagInkDash
-This repo contains the code needed to drive an E-Ink Magic Dashboard that uses a Raspberry Pi to automatically retrieve updated content from Google Calendar, and OpenWeatherMap, format them into the desired layout, before displaying it to an E-Ink display (Waveshare 12.48). Note that the code has only been tested on the specific hardware mentioned, but can be easily modified to work with other hardware.
+This repo contains the code needed to drive an E-Ink Magic Dashboard that uses a Raspberry Pi to automatically retrieve updated content from Google Calendar and OpenWeatherMap. Then it will format them into the desired layout before displaying it to an E-Ink display (Waveshare 12.48). Note that the code has only been tested on the specific hardware mentioned, but can be easily modified to work with other hardware.
+
+
 
 ## Background
 
@@ -21,7 +23,7 @@ There definitely is some more work to be done on this project. There are some co
 Through PiSugar3's web interface, the onboard RTC can be set to wake and trigger the RPi to boot up daily at a time of your preference. Upon boot, a cronjob on the RPi is triggered to run a Python script that fetches the current weather from OpenWeatherMap and calendar events from Google Calendar for the next 7 days. Then it formats them into the desired layout before displaying it on the E-Ink display. The RPi then shuts down to conserve battery. The calendar remains displayed on the E-Ink screen, because well, E-Ink...
 
 Some features of the dashboard: 
-- **Battery Life**: As with similar battery powered devices, the biggest question is the battery life. I'm currently using a 1500mAh battery on the Inkplate 10 and based on current usage, it should last me around 3-4 months. With the 3000mAh that comes with the manufacturer assembled Inkplate 10, we could potentially be looking at 6-8 month battery life. With this crazy battery life, there are much more options available. Perhaps solar power for unlimited battery life? Or reducing the refresh interval to 15 or 30min to increase the information timeliness?
+- **Battery Life**: As with similar battery powered devices, the biggest question is the battery life. I'm currently using a 1500mAh battery on the Pisugar3 and based on current usage, it should last me around 3-4 weeks.
 - **Calendar and Weather**: I'm currently displaying weather forecast for current day and the upcoming two days. I'm also displaying the calendar for the next week. Unfortunately, if you have a busy calendar with numerous events on a single day, the space on the dashboard will be consumed very quickly. If you have numerous events on each day, the calendar will run off the bottom of the screen. If this is visually unappealing, then you would need to decrease the number of days that are downloaded and displayed.
 
 ## Setting Up 
